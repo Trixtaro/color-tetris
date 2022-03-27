@@ -2,13 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum BlockColors {
-    NoColor = 0,
-    Yellow = 1,
-    Blue = 2,
-    Red = 3
-}
-
 public class TetrisManager : MonoBehaviour
 {
 
@@ -26,7 +19,7 @@ public class TetrisManager : MonoBehaviour
 
     private BlockColors[,] matrix;
     private GameObject[,] matrixBlocks;
-
+    private Piece currentPiece = new Piece(Pieces.PieceSquare, 4, 4);
     // Start is called before the first frame update
     void Start()
     {
@@ -39,8 +32,29 @@ public class TetrisManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Random.Range(0,2) > 0.9)
-            changeSomeBlocks();
+        if (Input.GetKeyDown(KeyCode.DownArrow)){
+            cleanPreviousPiecePosition();
+            currentPiece.moveDown();
+            paintBlocks();
+        }
+
+        if (Input.GetKeyDown(KeyCode.UpArrow)){
+            cleanPreviousPiecePosition();
+            currentPiece.moveUp();
+            paintBlocks();
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow)){
+            cleanPreviousPiecePosition();
+            currentPiece.moveLeft();
+            paintBlocks();
+        }
+
+        if (Input.GetKeyDown(KeyCode.RightArrow)){
+            cleanPreviousPiecePosition();
+            currentPiece.moveRight();
+            paintBlocks();
+        }
     }
 
     void createBlocks(){
@@ -62,12 +76,46 @@ public class TetrisManager : MonoBehaviour
     }
 
     void paintBlocks(){
+
+        if (currentPiece != null){
+            paintCurrentPiece();
+        }
+
         for (int i=0; i<NUMBER_OF_ROWS; i++){
             for (int j=0; j<NUMBER_OF_COLUMNS; j++){
                 if(matrixBlocks[i,j].GetComponent<Block>().currentState != matrix[i,j]){
                     matrixBlocks[i,j].GetComponent<Block>().currentState = matrix[i,j];
                     matrixBlocks[i,j].GetComponent<SpriteRenderer>().sprite = getColorOfBlock(matrix[i,j]);
                 }
+            }
+        }
+    }
+
+    void paintCurrentPiece(){
+
+        BlockColors[,] piece = currentPiece.piece;
+
+        for (int i=0; i < piece.GetLength(0); i++){
+            for (int j=0; j < piece.GetLength(1); j++){
+                int newPositionX = i + currentPiece.positionX;
+                int newPositionY = j + currentPiece.positionY;
+
+                if (isInsideMatrixBounds(newPositionX, newPositionY))
+                    matrix[newPositionX, newPositionY] = piece[i,j];
+            }
+        }
+    }
+
+    void cleanPreviousPiecePosition(){
+        BlockColors[,] piece = currentPiece.piece;
+
+        for (int i=0; i < piece.GetLength(0); i++){
+            for (int j=0; j < piece.GetLength(1); j++){
+                int positionX = i + currentPiece.positionX;
+                int positionY = j + currentPiece.positionY;
+
+                if (isInsideMatrixBounds(positionX, positionY))
+                    matrix[positionX, positionY] = BlockColors.NoColor;
             }
         }
     }
@@ -89,5 +137,21 @@ public class TetrisManager : MonoBehaviour
             case BlockColors.Red: return redBlock;
             default: return noBlock;
         }
+    }
+
+    bool isInsideMatrixBounds(int x, int y){
+        if (x < 0)
+            return false;
+
+        if (y < 0)
+            return false;
+
+        if (x >= NUMBER_OF_COLUMNS)
+            return false;
+
+        if (y >= NUMBER_OF_ROWS)
+            return false;
+
+        return true;
     }
 }
