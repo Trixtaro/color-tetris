@@ -5,6 +5,6 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
     
-    public int currentState = 0;
+    public BlockColors currentState = 0;
 
 }

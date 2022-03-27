@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum BlockColors {
+    NoColor = 0,
+    Yellow = 1,
+    Blue = 2,
+    Red = 3
+}
+
 public class TetrisManager : MonoBehaviour
 {
 
@@ -17,13 +24,14 @@ public class TetrisManager : MonoBehaviour
 
     public GameObject blockPrefab;
 
-    private int[,] matrix;
+    private BlockColors[,] matrix;
     private GameObject[,] matrixBlocks;
 
     // Start is called before the first frame update
     void Start()
     {
-        matrix = new int[NUMBER_OF_ROWS,NUMBER_OF_COLUMNS];
+        Application.targetFrameRate = 60;
+        matrix = new BlockColors[NUMBER_OF_ROWS,NUMBER_OF_COLUMNS];
         matrixBlocks = new GameObject[NUMBER_OF_ROWS,NUMBER_OF_COLUMNS];
         createBlocks();
     }
@@ -31,7 +39,8 @@ public class TetrisManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Random.Range(0,2) > 0.9)
+            changeSomeBlocks();
     }
 
     void createBlocks(){
@@ -44,19 +53,41 @@ public class TetrisManager : MonoBehaviour
                 renderer.sprite = noBlock;
                 newBlock.transform.Translate(new Vector2(i * distanceBetweenBlocks, j * distanceBetweenBlocks));
 
-                newBlock.GetComponent<Block>().currentState = 1;
+                newBlock.GetComponent<Block>().currentState = BlockColors.NoColor;
+
+                matrixBlocks[i,j] = newBlock;
             }
         }
 
     }
 
     void paintBlocks(){
-
         for (int i=0; i<NUMBER_OF_ROWS; i++){
             for (int j=0; j<NUMBER_OF_COLUMNS; j++){
-                
+                if(matrixBlocks[i,j].GetComponent<Block>().currentState != matrix[i,j]){
+                    matrixBlocks[i,j].GetComponent<Block>().currentState = matrix[i,j];
+                    matrixBlocks[i,j].GetComponent<SpriteRenderer>().sprite = getColorOfBlock(matrix[i,j]);
+                }
             }
         }
+    }
 
+    void changeSomeBlocks(){
+        int randomValueX = Random.Range(0, NUMBER_OF_COLUMNS);
+        int randomValueY = Random.Range(0, NUMBER_OF_ROWS);
+
+        matrix[randomValueX,randomValueY] = (BlockColors) Random.Range(1,4);
+
+        paintBlocks();
+    }
+
+    Sprite getColorOfBlock(BlockColors color){
+        switch(color){
+            case BlockColors.NoColor: return noBlock;
+            case BlockColors.Yellow: return yellowBlock;
+            case BlockColors.Blue: return blueBlock;
+            case BlockColors.Red: return redBlock;
+            default: return noBlock;
+        }
     }
 }
