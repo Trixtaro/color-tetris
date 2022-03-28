@@ -44,7 +44,7 @@ public class TetrisManager : MonoBehaviour
             paintBlocks();
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow)){
+        if (Input.GetKeyDown(KeyCode.DownArrow) && !isPieceTouchingBottom()){
             cleanPreviousPiecePosition();
             currentPiece.moveDown();
             paintBlocks();
@@ -165,5 +165,25 @@ public class TetrisManager : MonoBehaviour
             return false;
 
         return true;
+    }
+
+    bool isPieceTouchingBottom(){
+
+        for(int i = 0; i < currentPiece.piece.GetLength(1); i++){
+            int newPositionX = i + currentPiece.positionX;
+            int newPositionY = currentPiece.positionY - 1;
+
+            if (currentPiece.piece[i,0] != BlockColors.NoColor){
+                if (!isInsideMatrixBounds(newPositionX, newPositionY)){
+                    return true;
+                }
+
+                if (matrix[newPositionX, newPositionY] != BlockColors.NoColor){
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
