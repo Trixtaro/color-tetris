@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 925702709}
   - component: {fileID: 925702708}
   m_Layer: 0
-  m_Name: no_block
+  m_Name: Board
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -260,11 +260,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 81783869
-  m_SortingLayer: 2
+  m_SortingLayerID: 915062663
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 33f227b6e8b1ef849ad30703ade33149, type: 3}
-  m_Color: {r: 0.15477037, g: 0.56427056, b: 0.8867924, a: 0.5529412}
+  m_Color: {r: 0.15477037, g: 0.56427056, b: 0.8867924, a: 0.7019608}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

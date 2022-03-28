@@ -55,4 +55,36 @@ public class Piece
         this.positionX++;
     }
 
+    public bool rotateClockWise(){
+        int length = piece.GetLength(0);
+
+        BlockColors[,] auxMatrix = new BlockColors[length, length];
+
+        for (int i = 0; i < length; ++i) {
+            for (int j = 0; j < length; ++j) {
+                auxMatrix[i, j] = piece[length - j - 1, i];
+            }
+        }
+
+        piece = auxMatrix;
+
+        return true;
+    }
+
+    public bool rotateCounterClockWise(){
+        int length = piece.GetLength(0);
+
+        BlockColors[,] auxMatrix = new BlockColors[length, length];
+
+        for (int i = 0; i < length; ++i) {
+            for (int j = 0; j < length; ++j) {
+                auxMatrix[i, j] = piece[j,length - i - 1];
+            }
+        }
+
+        piece = auxMatrix;
+
+        return true;
+    }
+
 }

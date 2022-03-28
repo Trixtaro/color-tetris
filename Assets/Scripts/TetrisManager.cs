@@ -32,6 +32,18 @@ public class TetrisManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.LeftControl)){
+            cleanPreviousPiecePosition();
+            currentPiece.rotateCounterClockWise();
+            paintBlocks();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space)){
+            cleanPreviousPiecePosition();
+            currentPiece.rotateClockWise();
+            paintBlocks();
+        }
+
         if (Input.GetKeyDown(KeyCode.DownArrow)){
             cleanPreviousPiecePosition();
             currentPiece.moveDown();
