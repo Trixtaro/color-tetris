@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Directions{
+    Left,
+    Right,
+    Up,
+    Down
+}
+
 public class TetrisManager : MonoBehaviour
 {
 
@@ -44,25 +51,25 @@ public class TetrisManager : MonoBehaviour
             paintBlocks();
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow) && !isPieceTouchingBottom()){
+        if (Input.GetKeyDown(KeyCode.DownArrow) && !isPieceTouchingSide(Directions.Down)){
             cleanPreviousPiecePosition();
             currentPiece.moveDown();
             paintBlocks();
         }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow)){
+        if (Input.GetKeyDown(KeyCode.UpArrow) && !isPieceTouchingSide(Directions.Up)){
             cleanPreviousPiecePosition();
             currentPiece.moveUp();
             paintBlocks();
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow)){
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && !isPieceTouchingSide(Directions.Left)){
             cleanPreviousPiecePosition();
             currentPiece.moveLeft();
             paintBlocks();
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow)){
+        if (Input.GetKeyDown(KeyCode.RightArrow) && !isPieceTouchingSide(Directions.Right)){
             cleanPreviousPiecePosition();
             currentPiece.moveRight();
             paintBlocks();
@@ -167,11 +174,34 @@ public class TetrisManager : MonoBehaviour
         return true;
     }
 
-    bool isPieceTouchingBottom(){
+    bool isPieceTouchingSide(Directions direction){
 
         for(int i = 0; i < currentPiece.piece.GetLength(1); i++){
-            int newPositionX = i + currentPiece.positionX;
-            int newPositionY = currentPiece.positionY - 1;
+            int newPositionX; 
+            int newPositionY; 
+            
+            switch(direction){
+                case Directions.Up:
+                    newPositionX = i + currentPiece.positionX;
+                    newPositionY = currentPiece.piece.GetLength(1) + currentPiece.positionY;
+                    break;
+                case Directions.Down:
+                    newPositionX = i + currentPiece.positionX;
+                    newPositionY = currentPiece.positionY - 1;
+                    break;
+                case Directions.Left:
+                    newPositionX = currentPiece.positionX - 1;
+                    newPositionY = i + currentPiece.positionY;
+                    break;
+                case Directions.Right:
+                    newPositionX=  currentPiece.piece.GetLength(1) + currentPiece.positionX;
+                    newPositionY = i + currentPiece.positionY;
+                    break;
+                default:
+                    newPositionX = currentPiece.positionX;
+                    newPositionY = currentPiece.positionY;
+                    break;
+            }
 
             if (currentPiece.piece[i,0] != BlockColors.NoColor){
                 if (!isInsideMatrixBounds(newPositionX, newPositionY)){
