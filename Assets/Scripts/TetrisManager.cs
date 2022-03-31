@@ -12,8 +12,8 @@ public enum Directions{
 public class TetrisManager : MonoBehaviour
 {
 
-    public const int NUMBER_OF_ROWS = 10;
     public const int NUMBER_OF_COLUMNS = 10;
+    public const int NUMBER_OF_ROWS = 15;
 
     public float distanceBetweenBlocks = 0.1f;
 
@@ -35,8 +35,8 @@ public class TetrisManager : MonoBehaviour
     {
         Application.targetFrameRate = 60;
 
-        this.matrix = new BlockColors[NUMBER_OF_ROWS,NUMBER_OF_COLUMNS];
-        this.matrixBlocks = new GameObject[NUMBER_OF_ROWS,NUMBER_OF_COLUMNS];
+        this.matrix = new BlockColors[NUMBER_OF_COLUMNS,NUMBER_OF_ROWS];
+        this.matrixBlocks = new GameObject[NUMBER_OF_COLUMNS,NUMBER_OF_ROWS];
 
         this.factory = new PieceFactory(this.pieceInitialPositionX, this.pieceInitialPositionY);
         this.factory.setMode(PieceFactoryMode.Random);
@@ -101,8 +101,8 @@ public class TetrisManager : MonoBehaviour
 
     void createBlocks(){
 
-        for (int i=0; i<NUMBER_OF_ROWS; i++){
-            for (int j=0; j<NUMBER_OF_COLUMNS; j++){
+        for (int i=0; i<NUMBER_OF_COLUMNS; i++){
+            for (int j=0; j<NUMBER_OF_ROWS; j++){
                 GameObject newBlock = Instantiate(blockPrefab, transform.position, transform.rotation);
                 SpriteRenderer renderer = newBlock.GetComponent<SpriteRenderer>();
 
@@ -123,8 +123,8 @@ public class TetrisManager : MonoBehaviour
             paintCurrentPiece();
         }
 
-        for (int i=0; i<NUMBER_OF_ROWS; i++){
-            for (int j=0; j<NUMBER_OF_COLUMNS; j++){
+        for (int i=0; i<NUMBER_OF_COLUMNS; i++){
+            for (int j=0; j<NUMBER_OF_ROWS; j++){
                 if(matrixBlocks[i,j].GetComponent<Block>().currentState != matrix[i,j]){
                     matrixBlocks[i,j].GetComponent<Block>().currentState = matrix[i,j];
                     matrixBlocks[i,j].GetComponent<SpriteRenderer>().sprite = getColorOfBlock(matrix[i,j]);
@@ -142,7 +142,7 @@ public class TetrisManager : MonoBehaviour
                 int newPositionX = i + currentPiece.positionX;
                 int newPositionY = j + currentPiece.positionY;
 
-                if (isInsideMatrixBounds(newPositionX, newPositionY))
+                if (isInsideMatrixBounds(newPositionX, newPositionY) && piece[i,j] != BlockColors.NoColor)
                     matrix[newPositionX, newPositionY] = piece[i,j];
             }
         }
@@ -156,15 +156,15 @@ public class TetrisManager : MonoBehaviour
                 int positionX = i + currentPiece.positionX;
                 int positionY = j + currentPiece.positionY;
 
-                if (isInsideMatrixBounds(positionX, positionY))
+                if (isInsideMatrixBounds(positionX, positionY)  && piece[i,j] != BlockColors.NoColor)
                     matrix[positionX, positionY] = BlockColors.NoColor;
             }
         }
     }
 
     void changeSomeBlocks(){
-        int randomValueX = Random.Range(0, NUMBER_OF_COLUMNS);
-        int randomValueY = Random.Range(0, NUMBER_OF_ROWS);
+        int randomValueX = Random.Range(0, NUMBER_OF_ROWS);
+        int randomValueY = Random.Range(0, NUMBER_OF_COLUMNS);
 
         matrix[randomValueX,randomValueY] = (BlockColors) Random.Range(1,4);
 

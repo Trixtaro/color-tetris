@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum PieceTypes{
-    PieceSquare
+    PieceSquare,
+    PieceL,
+    PieceS,
+    PieceZ,
+    PieceLine
 }
 
 public enum BlockColors {
@@ -29,9 +33,45 @@ public class Piece
         BlockColors[,] matrix;
         
         switch(type){
-            default: matrix = new BlockColors[,]{
-                { BlockColors.Blue, BlockColors.Red },
-                { BlockColors.Yellow, BlockColors.Blue },
+            case PieceTypes.PieceSquare:
+                matrix = new BlockColors[,]{
+                    { BlockColors.Blue, BlockColors.Red },
+                    { BlockColors.Yellow, BlockColors.Blue }
+                };
+                break;
+            case PieceTypes.PieceL:
+                matrix = new BlockColors[,]{
+                    { BlockColors.NoColor, BlockColors.NoColor, BlockColors.NoColor },
+                    { BlockColors.Blue, BlockColors.NoColor, BlockColors.NoColor },
+                    { BlockColors.Yellow, BlockColors.Blue, BlockColors.Red },
+                };
+                break;
+            case PieceTypes.PieceS:
+                matrix = new BlockColors[,]{
+                    { BlockColors.NoColor, BlockColors.NoColor, BlockColors.NoColor },
+                    { BlockColors.NoColor, BlockColors.Blue, BlockColors.Red },
+                    { BlockColors.Yellow, BlockColors.Red, BlockColors.NoColor },
+                };
+                break;
+            case PieceTypes.PieceZ:
+                matrix = new BlockColors[,]{
+                    { BlockColors.NoColor, BlockColors.NoColor, BlockColors.NoColor },
+                    { BlockColors.Blue, BlockColors.Red, BlockColors.NoColor },
+                    { BlockColors.NoColor, BlockColors.Yellow, BlockColors.Red },
+                };
+                break;
+            case PieceTypes.PieceLine:
+                matrix = new BlockColors[,]{
+                    { BlockColors.NoColor, BlockColors.Yellow, BlockColors.NoColor, BlockColors.NoColor },
+                    { BlockColors.NoColor, BlockColors.Blue, BlockColors.NoColor, BlockColors.NoColor },
+                    { BlockColors.NoColor, BlockColors.Yellow, BlockColors.NoColor, BlockColors.NoColor },
+                    { BlockColors.NoColor, BlockColors.Blue, BlockColors.NoColor, BlockColors.NoColor },
+                };
+                break;
+            default: 
+                matrix = new BlockColors[,]{
+                    { BlockColors.Blue, BlockColors.Red },
+                    { BlockColors.Yellow, BlockColors.Blue },
             };
                 
             break;
