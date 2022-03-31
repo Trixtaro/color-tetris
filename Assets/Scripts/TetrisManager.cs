@@ -26,14 +26,24 @@ public class TetrisManager : MonoBehaviour
 
     private BlockColors[,] matrix;
     private GameObject[,] matrixBlocks;
-    private Piece currentPiece = new Piece(Pieces.PieceSquare, 4, 4);
+    private Piece currentPiece;
+    private PieceFactory factory;
+    public int pieceInitialPositionX = 2;
+    public int pieceInitialPositionY = 2;
     // Start is called before the first frame update
     void Start()
     {
         Application.targetFrameRate = 60;
-        matrix = new BlockColors[NUMBER_OF_ROWS,NUMBER_OF_COLUMNS];
-        matrixBlocks = new GameObject[NUMBER_OF_ROWS,NUMBER_OF_COLUMNS];
+
+        this.matrix = new BlockColors[NUMBER_OF_ROWS,NUMBER_OF_COLUMNS];
+        this.matrixBlocks = new GameObject[NUMBER_OF_ROWS,NUMBER_OF_COLUMNS];
+
+        this.factory = new PieceFactory(this.pieceInitialPositionX, this.pieceInitialPositionY);
+        this.factory.setMode(PieceFactoryMode.Random);
+        this.currentPiece = this.factory.generate();
+
         createBlocks();
+        paintBlocks();
     }
 
     // Update is called once per frame

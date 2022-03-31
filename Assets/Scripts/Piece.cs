@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Pieces{
+public enum PieceTypes{
     PieceSquare
 }
 
@@ -19,13 +19,13 @@ public class Piece
     public int positionX;
     public int positionY;
 
-    public Piece(Pieces type, int positionX, int positionY){
+    public Piece(PieceTypes type, int positionX, int positionY){
         this.piece = createMatrix(type);
         this.positionX = positionX;
         this.positionY = positionY;
     }
 
-    static BlockColors[,] createMatrix(Pieces type){
+    static BlockColors[,] createMatrix(PieceTypes type){
         BlockColors[,] matrix;
         
         switch(type){
