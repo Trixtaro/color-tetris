@@ -44,6 +44,19 @@ public class TetrisManager : MonoBehaviour
 
         createBlocks();
         paintBlocks();
+
+        InvokeRepeating("GameStep", 1f, 1f);
+    }
+
+    void GameStep(){
+        if (!isPieceTouchingSide(Directions.Down)){
+            cleanPreviousPiecePosition();
+            currentPiece.moveDown();
+            paintBlocks();
+        } else {
+            this.currentPiece = this.factory.generate();
+            paintBlocks();
+        }
     }
 
     // Update is called once per frame
