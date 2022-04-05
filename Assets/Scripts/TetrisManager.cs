@@ -199,40 +199,59 @@ public class TetrisManager : MonoBehaviour
 
     bool isPieceTouchingSide(Directions direction){
 
+        int counter = 0;
+        int j = 0;
+
         for(int i = 0; i < currentPiece.piece.GetLength(1); i++){
             int newPositionX; 
             int newPositionY; 
+            bool isNoBlock;
             
             switch(direction){
                 case Directions.Up:
                     newPositionX = i + currentPiece.positionX;
-                    newPositionY = currentPiece.piece.GetLength(1) + currentPiece.positionY;
+                    newPositionY = currentPiece.piece.GetLength(1) + currentPiece.positionY - j;
+                    isNoBlock = currentPiece.piece[i,currentPiece.piece.GetLength(1)-1-j] != BlockColors.NoColor;
                     break;
                 case Directions.Down:
                     newPositionX = i + currentPiece.positionX;
-                    newPositionY = currentPiece.positionY - 1;
+                    newPositionY = currentPiece.positionY - 1 + j;
+                    isNoBlock = currentPiece.piece[i,j] != BlockColors.NoColor;
                     break;
                 case Directions.Left:
-                    newPositionX = currentPiece.positionX - 1;
+                    newPositionX = currentPiece.positionX - 1 + j;
                     newPositionY = i + currentPiece.positionY;
+                    isNoBlock = currentPiece.piece[j,i] != BlockColors.NoColor;
                     break;
                 case Directions.Right:
-                    newPositionX=  currentPiece.piece.GetLength(1) + currentPiece.positionX;
+                    newPositionX =  currentPiece.piece.GetLength(1) + currentPiece.positionX - j;
                     newPositionY = i + currentPiece.positionY;
+                    isNoBlock = currentPiece.piece[currentPiece.piece.GetLength(1)-1-j,i] != BlockColors.NoColor;
                     break;
                 default:
                     newPositionX = currentPiece.positionX;
                     newPositionY = currentPiece.positionY;
+                    isNoBlock = false;
                     break;
             }
 
-            if (currentPiece.piece[i,0] != BlockColors.NoColor){
+            if (isNoBlock){
                 if (!isInsideMatrixBounds(newPositionX, newPositionY)){
                     return true;
                 }
 
                 if (matrix[newPositionX, newPositionY] != BlockColors.NoColor){
                     return true;
+                }
+            } else {
+                counter++;
+            }
+
+            if (i == currentPiece.piece.GetLength(1) - 1){
+                if (counter == currentPiece.piece.GetLength(1)){
+                    i = -1;
+                    j++;
+                    counter = 0;
                 }
             }
         }
