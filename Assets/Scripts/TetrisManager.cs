@@ -64,13 +64,13 @@ public class TetrisManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftControl)){
             cleanPreviousPiecePosition();
-            currentPiece.rotateCounterClockWise();
+            currentPiece.rotate(matrix, false);
             paintBlocks();
         }
 
         if (Input.GetKeyDown(KeyCode.Space)){
             cleanPreviousPiecePosition();
-            currentPiece.rotateClockWise();
+            currentPiece.rotate(matrix, true);
             paintBlocks();
         }
 

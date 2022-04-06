@@ -95,34 +95,36 @@ public class Piece
         this.positionX++;
     }
 
-    public bool rotateClockWise(){
+    public BlockColors[,] rotatedPiece(bool clockwise){
         int length = piece.GetLength(0);
 
         BlockColors[,] auxMatrix = new BlockColors[length, length];
 
         for (int i = 0; i < length; ++i) {
             for (int j = 0; j < length; ++j) {
-                auxMatrix[i, j] = piece[length - j - 1, i];
+                auxMatrix[i, j] = piece[
+                    clockwise ? (length - j - 1) : j, 
+                    !clockwise ? (length - i - 1) : i
+                ];
             }
         }
 
-        piece = auxMatrix;
-
-        return true;
+        return auxMatrix;
     }
 
-    public bool rotateCounterClockWise(){
-        int length = piece.GetLength(0);
+    public bool rotate(BlockColors[,] board, bool clockwise){
+        BlockColors[,] newPiece = rotatedPiece(clockwise);
 
-        BlockColors[,] auxMatrix = new BlockColors[length, length];
-
-        for (int i = 0; i < length; ++i) {
-            for (int j = 0; j < length; ++j) {
-                auxMatrix[i, j] = piece[j,length - i - 1];
+        for (int i = 0; i < newPiece.GetLength(0); ++i) {
+            for (int j = 0; j < newPiece.GetLength(1); ++j) {
+                if (newPiece[i,j] != BlockColors.NoColor 
+                    && board[this.positionX + i, this.positionY + j] != BlockColors.NoColor){
+                    return false;
+                }
             }
         }
 
-        piece = auxMatrix;
+        piece = newPiece;
 
         return true;
     }
