@@ -54,7 +54,15 @@ public class TetrisManager : MonoBehaviour
             currentPiece.moveDown();
             paintBlocks();
         } else {
-            this.currentPiece = this.factory.generate();
+            Piece newPiece = this.factory.generate();
+
+            if (Piece.isTouchingTheBoard(matrix, newPiece.piece, this.pieceInitialPositionX, this.pieceInitialPositionY)){
+                Debug.Log("Game Over");
+                cleanBoard();
+            } else {
+                this.currentPiece = newPiece;
+            }
+
             paintBlocks();
         }
     }
@@ -131,6 +139,10 @@ public class TetrisManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    void cleanBoard(){
+        this.matrix = new BlockColors[NUMBER_OF_COLUMNS,NUMBER_OF_ROWS];
     }
 
     void paintCurrentPiece(){

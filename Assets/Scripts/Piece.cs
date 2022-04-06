@@ -115,18 +115,29 @@ public class Piece
     public bool rotate(BlockColors[,] board, bool clockwise){
         BlockColors[,] newPiece = rotatedPiece(clockwise);
 
-        for (int i = 0; i < newPiece.GetLength(0); ++i) {
-            for (int j = 0; j < newPiece.GetLength(1); ++j) {
-                if (newPiece[i,j] != BlockColors.NoColor 
-                    && board[this.positionX + i, this.positionY + j] != BlockColors.NoColor){
-                    return false;
-                }
-            }
-        }
+        bool isTouching = Piece.isTouchingTheBoard(board, newPiece, this.positionX, this.positionY);
+
+        if (isTouching)
+            return false;
 
         piece = newPiece;
 
         return true;
     }
 
+    public static bool isTouchingTheBoard(BlockColors[,] board, BlockColors[,] piece, int positionX, int positionY){
+        
+        for (int i = 0; i < piece.GetLength(0); ++i) {
+            for (int j = 0; j < piece.GetLength(1); ++j) {
+                if (piece[i,j] != BlockColors.NoColor 
+                    && board[positionX + i, positionY + j] != BlockColors.NoColor){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+
+    }
+    
 }
