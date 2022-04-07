@@ -7,7 +7,8 @@ public enum PieceTypes{
     PieceL,
     PieceS,
     PieceZ,
-    PieceLine
+    PieceLine,
+    PieceT
 }
 
 public enum BlockColors {
@@ -66,6 +67,13 @@ public class Piece
                     { BlockColors.NoColor, BlockColors.Blue, BlockColors.NoColor, BlockColors.NoColor },
                     { BlockColors.NoColor, BlockColors.Yellow, BlockColors.NoColor, BlockColors.NoColor },
                     { BlockColors.NoColor, BlockColors.Blue, BlockColors.NoColor, BlockColors.NoColor },
+                };
+                break;
+            case PieceTypes.PieceT:
+                matrix = new BlockColors[,]{
+                    { BlockColors.NoColor, BlockColors.NoColor, BlockColors.NoColor },
+                    { BlockColors.Blue, BlockColors.Red, BlockColors.Yellow },
+                    { BlockColors.NoColor, BlockColors.Yellow, BlockColors.NoColor },
                 };
                 break;
             default: 

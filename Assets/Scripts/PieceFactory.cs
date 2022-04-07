@@ -1,5 +1,7 @@
 ﻿using System;
 public enum PieceFactoryMode{
+    OnlyPieceT,
+    OnlyPieceL,
     Random
 }
 
@@ -17,6 +19,10 @@ public class PieceFactory : Factory<Piece>
 
     public Piece generate(){
         switch(this.mode){
+            case PieceFactoryMode.OnlyPieceL:
+                return this.generateOnePiece(PieceTypes.PieceL);
+            case PieceFactoryMode.OnlyPieceT:
+                return this.generateOnePiece(PieceTypes.PieceT);
             case PieceFactoryMode.Random:
                 return this.generateRandomPiece();
             default:
@@ -32,6 +38,14 @@ public class PieceFactory : Factory<Piece>
         int numberOfPieceTypes = Enum.GetValues(typeof(PieceTypes)).Length;
         PieceTypes typeOfPiece = (PieceTypes) UnityEngine.Random.Range(0, numberOfPieceTypes + 1);
         
+        return new Piece(
+            typeOfPiece, 
+            this.initialPositionX, 
+            this.initialPositionY
+        );
+    }
+
+    private Piece generateOnePiece(PieceTypes typeOfPiece){
         return new Piece(
             typeOfPiece, 
             this.initialPositionX, 

@@ -28,6 +28,7 @@ public class TetrisManager : MonoBehaviour
     private GameObject[,] matrixBlocks;
     private Piece currentPiece;
     private PieceFactory factory;
+    public PieceFactoryMode initialMode = PieceFactoryMode.Random;
     public int pieceInitialPositionX = 2;
     public int pieceInitialPositionY = 2;
     // Start is called before the first frame update
@@ -39,7 +40,7 @@ public class TetrisManager : MonoBehaviour
         this.matrixBlocks = new GameObject[NUMBER_OF_COLUMNS,NUMBER_OF_ROWS];
 
         this.factory = new PieceFactory(this.pieceInitialPositionX, this.pieceInitialPositionY);
-        this.factory.setMode(PieceFactoryMode.Random);
+        this.factory.setMode(initialMode);
         this.currentPiece = this.factory.generate();
 
         createBlocks();
