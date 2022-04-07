@@ -262,4 +262,20 @@ public class TetrisManager : MonoBehaviour
 
         return false;
     }
+
+    void removeHorizontalLines(int quantityOfLines, int positionOfBottomLine) {
+
+        for (int i = positionOfBottomLine; i < quantityOfLines; i++){
+            for (int j = 0; j < NUMBER_OF_COLUMNS; j++){
+                matrix[j,positionOfBottomLine + i] = BlockColors.NoColor;
+            }
+        }
+
+        for (int i = positionOfBottomLine; i < NUMBER_OF_ROWS - quantityOfLines - 1; i++){
+            for (int j = 0; j < NUMBER_OF_COLUMNS; j++){
+                matrix[j,i] = matrix[j,positionOfBottomLine + i + quantityOfLines];
+            }
+        }
+
+    }
 }
