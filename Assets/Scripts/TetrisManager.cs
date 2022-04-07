@@ -20,6 +20,8 @@ public class TetrisManager : MonoBehaviour
     public Sprite blueBlock;
     public Sprite redBlock;
     public Sprite yellowBlock;
+    public Sprite greenBlock;
+    public Sprite purpleBlock;
     public Sprite noBlock;
 
     public GameObject blockPrefab;
@@ -42,6 +44,7 @@ public class TetrisManager : MonoBehaviour
         this.factory = new PieceFactory(this.pieceInitialPositionX, this.pieceInitialPositionY);
         this.factory.setMode(initialMode);
         this.currentPiece = this.factory.generate();
+        this.currentPiece.randomizeColor();
 
         createBlocks();
         paintBlocks();
@@ -55,6 +58,7 @@ public class TetrisManager : MonoBehaviour
             currentPiece.moveDown();
         } else {
             Piece newPiece = this.factory.generate();
+            newPiece.randomizeColor();
 
             if (Piece.isTouchingTheBoard(matrix, newPiece.piece, this.pieceInitialPositionX, this.pieceInitialPositionY)){
                 Debug.Log("Game Over");
@@ -190,6 +194,8 @@ public class TetrisManager : MonoBehaviour
             case BlockColors.Yellow: return yellowBlock;
             case BlockColors.Blue: return blueBlock;
             case BlockColors.Red: return redBlock;
+            case BlockColors.Green: return greenBlock;
+            case BlockColors.Purple: return purpleBlock;
             default: return noBlock;
         }
     }

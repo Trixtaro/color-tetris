@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public enum PieceTypes{
@@ -15,7 +14,9 @@ public enum BlockColors {
     NoColor = 0,
     Yellow = 1,
     Blue = 2,
-    Red = 3
+    Red = 3,
+    Green = 4,
+    Purple = 5,
 }
 
 public class Piece
@@ -86,6 +87,21 @@ public class Piece
         }
         
         return matrix;
+    }
+
+    public void randomizeColor(){
+        for(int i=0; i<piece.GetLength(0); i++){
+            for(int j=0; j<piece.GetLength(1); j++){
+                int numberOfColors = Enum.GetValues(typeof(BlockColors)).Length;
+                BlockColors color = (BlockColors) UnityEngine.Random.Range(1, numberOfColors);
+
+                // BlockColors color = (BlockColors) UnityEngine.Random.Range(1, 3);
+
+                if (piece[i,j] != BlockColors.NoColor){
+                    piece[i,j] = color;
+                }
+            }
+        }
     }
 
     public void moveDown(){
