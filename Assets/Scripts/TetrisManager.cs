@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,7 +44,6 @@ public class TetrisManager : MonoBehaviour
         this.factory = new PieceFactory(this.pieceInitialPositionX, this.pieceInitialPositionY);
         this.factory.setMode(initialMode);
         this.currentPiece = this.factory.generate();
-        this.currentPiece.randomizeColor();
 
         createBlocks();
         paintBlocks();
@@ -58,7 +57,6 @@ public class TetrisManager : MonoBehaviour
             currentPiece.moveDown();
         } else {
             Piece newPiece = this.factory.generate();
-            newPiece.randomizeColor();
 
             if (Piece.isTouchingTheBoard(matrix, newPiece.piece, this.pieceInitialPositionX, this.pieceInitialPositionY)){
                 Debug.Log("Game Over");

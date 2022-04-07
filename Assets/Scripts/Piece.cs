@@ -95,8 +95,16 @@ public class Piece
                 int numberOfColors = Enum.GetValues(typeof(BlockColors)).Length;
                 BlockColors color = (BlockColors) UnityEngine.Random.Range(1, numberOfColors);
 
-                // BlockColors color = (BlockColors) UnityEngine.Random.Range(1, 3);
+                if (piece[i,j] != BlockColors.NoColor){
+                    piece[i,j] = color;
+                }
+            }
+        }
+    }
 
+    public void setColor(BlockColors color){
+        for(int i=0; i<piece.GetLength(0); i++){
+            for(int j=0; j<piece.GetLength(1); j++){
                 if (piece[i,j] != BlockColors.NoColor){
                     piece[i,j] = color;
                 }

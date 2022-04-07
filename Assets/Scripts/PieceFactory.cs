@@ -1,5 +1,6 @@
 ﻿using System;
 public enum PieceFactoryMode{
+    OnlyColorRed,
     OnlyPieceT,
     OnlyPieceL,
     OnlySquare,
@@ -20,6 +21,8 @@ public class PieceFactory : Factory<Piece>
 
     public Piece generate(){
         switch(this.mode){
+            case PieceFactoryMode.OnlyColorRed:
+                return this.generateOneColorPiece(BlockColors.Red);
             case PieceFactoryMode.OnlySquare:
                 return this.generateOnePiece(PieceTypes.PieceSquare);
             case PieceFactoryMode.OnlyPieceL:
@@ -41,19 +44,38 @@ public class PieceFactory : Factory<Piece>
         int numberOfPieceTypes = Enum.GetValues(typeof(PieceTypes)).Length;
         PieceTypes typeOfPiece = (PieceTypes) UnityEngine.Random.Range(0, numberOfPieceTypes + 1);
         
-        return new Piece(
+        Piece newPiece = new Piece(
             typeOfPiece, 
             this.initialPositionX, 
             this.initialPositionY
         );
+        newPiece.randomizeColor();
+        return newPiece;
     }
 
     private Piece generateOnePiece(PieceTypes typeOfPiece){
-        return new Piece(
+        Piece newPiece = new Piece(
             typeOfPiece, 
             this.initialPositionX, 
             this.initialPositionY
         );
+        newPiece.randomizeColor();
+
+        return newPiece;
+    }
+
+    private Piece generateOneColorPiece(BlockColors color){
+        int numberOfPieceTypes = Enum.GetValues(typeof(PieceTypes)).Length;
+        PieceTypes typeOfPiece = (PieceTypes) UnityEngine.Random.Range(0, numberOfPieceTypes + 1);
+
+        Piece newPiece = new Piece(
+            typeOfPiece, 
+            this.initialPositionX, 
+            this.initialPositionY
+        );
+        newPiece.setColor(color);
+
+        return newPiece;
     }
 
 }
