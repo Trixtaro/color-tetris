@@ -280,6 +280,7 @@ public class TetrisManager : MonoBehaviour
 
             if (counter == NUMBER_OF_COLUMNS){
                 removeHorizontalLines(1, i);
+                i--;
             }
         }
     }

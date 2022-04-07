@@ -2,6 +2,7 @@
 public enum PieceFactoryMode{
     OnlyPieceT,
     OnlyPieceL,
+    OnlySquare,
     Random
 }
 
@@ -19,6 +20,8 @@ public class PieceFactory : Factory<Piece>
 
     public Piece generate(){
         switch(this.mode){
+            case PieceFactoryMode.OnlySquare:
+                return this.generateOnePiece(PieceTypes.PieceSquare);
             case PieceFactoryMode.OnlyPieceL:
                 return this.generateOnePiece(PieceTypes.PieceL);
             case PieceFactoryMode.OnlyPieceT:
