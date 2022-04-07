@@ -52,7 +52,6 @@ public class TetrisManager : MonoBehaviour
         if (!isPieceTouchingSide(Directions.Down)){
             cleanPreviousPiecePosition();
             currentPiece.moveDown();
-            paintBlocks();
         } else {
             Piece newPiece = this.factory.generate();
 
@@ -60,11 +59,12 @@ public class TetrisManager : MonoBehaviour
                 Debug.Log("Game Over");
                 cleanBoard();
             } else {
+                checkIfHorizontalLinesAreFilled();
                 this.currentPiece = newPiece;
             }
-
-            paintBlocks();
         }
+
+        paintBlocks();
     }
 
     // Update is called once per frame
@@ -263,6 +263,19 @@ public class TetrisManager : MonoBehaviour
         return false;
     }
 
+    void checkIfHorizontalLinesAreFilled(){
+        for (int i = 0; i < NUMBER_OF_ROWS; i++){
+            int counter = 0;
+            for (int j = 0; j < NUMBER_OF_COLUMNS; j++){
+                if (matrix[j,i] != BlockColors.NoColor)
+                    counter ++;
+            }
+
+            if (counter == NUMBER_OF_COLUMNS){
+                removeHorizontalLines(1, i);
+            }
+        }
+    }
     void removeHorizontalLines(int quantityOfLines, int positionOfBottomLine) {
 
         for (int i = positionOfBottomLine; i < quantityOfLines; i++){
