@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 public enum PieceTypes{
@@ -161,6 +161,16 @@ public class Piece
         
         for (int i = 0; i < piece.GetLength(0); ++i) {
             for (int j = 0; j < piece.GetLength(1); ++j) {
+
+                // outside the board
+                if(
+                    ((positionX + i) < 0)
+                    || ((positionX + i) >= board.GetLength(0))
+                    || ((positionY + j) < 0)
+                    || ((positionY + j) >= board.GetLength(1))){
+                    return true;
+                }
+                
                 if (piece[i,j] != BlockColors.NoColor 
                     && board[positionX + i, positionY + j] != BlockColors.NoColor){
                     return true;
