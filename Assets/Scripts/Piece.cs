@@ -147,6 +147,10 @@ public class Piece
     public bool rotate(BlockColors[,] board, bool clockwise){
         BlockColors[,] newPiece = rotatedPiece(clockwise);
 
+        bool isPieceOutside = Piece.isPieceOutsideTheBoard(board, newPiece, this.positionX, this.positionY);
+        if (isPieceOutside)
+            return false;
+
         bool isTouching = Piece.isTouchingTheBoard(board, newPiece, this.positionX, this.positionY);
 
         if (isTouching)
@@ -162,15 +166,6 @@ public class Piece
         for (int i = 0; i < piece.GetLength(0); ++i) {
             for (int j = 0; j < piece.GetLength(1); ++j) {
 
-                // outside the board
-                if(
-                    ((positionX + i) < 0)
-                    || ((positionX + i) >= board.GetLength(0))
-                    || ((positionY + j) < 0)
-                    || ((positionY + j) >= board.GetLength(1))){
-                    return true;
-                }
-                
                 if (piece[i,j] != BlockColors.NoColor 
                     && board[positionX + i, positionY + j] != BlockColors.NoColor){
                     return true;
@@ -180,6 +175,22 @@ public class Piece
 
         return false;
 
+    }
+
+    public static bool isPieceOutsideTheBoard(BlockColors[,] board, BlockColors[,] piece, int positionX, int positionY){
+        for (int i = 0; i < piece.GetLength(0); ++i) {
+            for (int j = 0; j < piece.GetLength(1); ++j) {
+                if(
+                    ((positionX + i) < 0)
+                    || ((positionX + i) >= board.GetLength(0))
+                    || ((positionY + j) < 0)
+                    || ((positionY + j) >= board.GetLength(1))){
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
     
 }
