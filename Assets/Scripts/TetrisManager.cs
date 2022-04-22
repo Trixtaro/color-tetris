@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,6 +33,7 @@ public class TetrisManager : MonoBehaviour
     public PieceFactoryMode initialMode = PieceFactoryMode.Random;
     public int pieceInitialPositionX = 2;
     public int pieceInitialPositionY = 2;
+    public int minimumVerticalBlocksForRemoving = 3;
     // Start is called before the first frame update
     void Start()
     {
@@ -63,6 +64,7 @@ public class TetrisManager : MonoBehaviour
                 cleanBoard();
             } else {
                 checkIfHorizontalLinesAreFilled();
+                checkIfVerticalLinesAreSameColor(minimumVerticalBlocksForRemoving);
                 this.currentPiece = newPiece;
             }
         }
@@ -282,6 +284,35 @@ public class TetrisManager : MonoBehaviour
             }
         }
     }
+
+    void checkIfVerticalLinesAreSameColor(int quantity){
+        BlockColors previousColor = BlockColors.NoColor;
+
+        for (int i = 0; i < NUMBER_OF_COLUMNS; i++){
+            int counter = 0;
+            previousColor = BlockColors.NoColor;
+
+            for (int j = 0; j < NUMBER_OF_ROWS; j++){
+                if (matrix[i,j] == previousColor){
+                    if (matrix[i,j] == BlockColors.NoColor){
+                        previousColor = BlockColors.NoColor;
+                        counter = 1;
+                    } else {
+                        counter++;
+                    }
+                } else {
+                    if (counter >= quantity){
+                        removeVerticalLines(counter, i, j);
+                        previousColor = BlockColors.NoColor;
+                    } else {
+                        previousColor = matrix[i,j];
+                    }
+                    counter = 1;
+                }
+            }
+        }
+    }
+
     void removeHorizontalLines(int quantityOfLines, int positionOfBottomLine) {
 
         // removing the lines
@@ -298,5 +329,11 @@ public class TetrisManager : MonoBehaviour
             }
         }
 
+    }
+
+    void removeVerticalLines(int quantityOfBlocks, int positionX, int positionY) {
+        for (int i = 0; i < NUMBER_OF_ROWS - quantityOfBlocks - positionY; i++){
+            matrix[positionX, i + positionY - quantityOfBlocks] = matrix[positionX, i + positionY];
+        }
     }
 }

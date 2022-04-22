@@ -262,8 +262,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 915062663
   m_SortingLayer: 1
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 33f227b6e8b1ef849ad30703ade33149, type: 3}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: 0241c0ed143b5f847822dfdfc3765939, type: 3}
   m_Color: {r: 0.15477037, g: 0.56427056, b: 0.8867924, a: 0.7019608}
   m_FlipX: 0
   m_FlipY: 0
@@ -403,10 +403,14 @@ MonoBehaviour:
   blueBlock: {fileID: 21300000, guid: 1066a08fa2b3ba44b9248a6b7adc2812, type: 3}
   redBlock: {fileID: 21300000, guid: 07046c083582b564b8e4992f1aabad40, type: 3}
   yellowBlock: {fileID: 21300000, guid: c9b24ca1f46d1d8478893be4cdc3021d, type: 3}
+  greenBlock: {fileID: 21300000, guid: 6f940af2846216f419d5c5696e3eb25a, type: 3}
+  purpleBlock: {fileID: 21300000, guid: 021255c473b223d43bde1a05c643fa08, type: 3}
   noBlock: {fileID: 21300000, guid: 33f227b6e8b1ef849ad30703ade33149, type: 3}
   blockPrefab: {fileID: 3815389771921321829, guid: cee7294e283bb5d4eb10f9d3fc2b0511, type: 3}
+  initialMode: 4
   pieceInitialPositionX: 4
   pieceInitialPositionY: 12
+  minimumVerticalBlocksForRemoving: 3
 --- !u!4 &2063670235
 Transform:
   m_ObjectHideFlags: 0
