@@ -11,6 +11,7 @@ public enum Directions{
 
 public class TetrisManager : MonoBehaviour
 {
+    public ScoreManager scoreManager;
     public const int NUMBER_OF_COLUMNS = 10;
     public const int NUMBER_OF_ROWS = 15;
     public float distanceBetweenBlocks = 0.1f;
@@ -58,16 +59,21 @@ public class TetrisManager : MonoBehaviour
 
             if (Piece.isTouchingTheBoard(matrix, newPiece.piece, this.pieceInitialPositionX, this.pieceInitialPositionY)){
                 Debug.Log("Game Over");
+                scoreManager.restartScore();
                 cleanBoard();
             } else {
-                checkIfHorizontalLinesAreFilled();
-                checkIfHorizontalLinesAreFilledWithSameColor(minimumHorizontalBlocksForRemoving);
-                checkIfVerticalLinesAreSameColor(minimumVerticalBlocksForRemoving);
+                this.collectPoints();
                 this.currentPiece = newPiece;
             }
         }
 
         paintBlocks();
+    }
+
+    void collectPoints(){
+        this.checkIfHorizontalLinesAreFilled();
+        this.checkIfHorizontalLinesAreFilledWithSameColor(minimumHorizontalBlocksForRemoving);
+        this.checkIfVerticalLinesAreSameColor(minimumVerticalBlocksForRemoving);
     }
 
     // Update is called once per frame
@@ -278,6 +284,7 @@ public class TetrisManager : MonoBehaviour
 
             if (counter == NUMBER_OF_COLUMNS){
                 removeHorizontalLines(1, i);
+                scoreManager.deleteLines(1);
                 i--;
             }
         }
@@ -301,6 +308,7 @@ public class TetrisManager : MonoBehaviour
                 } else {
                     if (counter >= quantity){
                         removeHorizontalBlocks(j, i, counter);
+                        scoreManager.deleteHorizontalBlocks(counter);
                         // check again the same line
                         i--;
                         previousColor = BlockColors.NoColor;
@@ -332,6 +340,7 @@ public class TetrisManager : MonoBehaviour
                 } else {
                     if (counter >= quantity){
                         removeVerticalLines(counter, i, j);
+                        scoreManager.deleteVerticalBlocks(counter);
                         previousColor = BlockColors.NoColor;
                     } else {
                         previousColor = matrix[i,j];

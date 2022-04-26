@@ -411,6 +411,7 @@ MonoBehaviour:
   pieceInitialPositionX: 4
   pieceInitialPositionY: 12
   minimumVerticalBlocksForRemoving: 3
+  minimumHorizontalBlocksForRemoving: 3
 --- !u!4 &2063670235
 Transform:
   m_ObjectHideFlags: 0
