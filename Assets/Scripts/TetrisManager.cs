@@ -11,21 +11,16 @@ public enum Directions{
 
 public class TetrisManager : MonoBehaviour
 {
-
     public const int NUMBER_OF_COLUMNS = 10;
     public const int NUMBER_OF_ROWS = 15;
-
     public float distanceBetweenBlocks = 0.1f;
-
     public Sprite blueBlock;
     public Sprite redBlock;
     public Sprite yellowBlock;
     public Sprite greenBlock;
     public Sprite purpleBlock;
     public Sprite noBlock;
-
     public GameObject blockPrefab;
-
     private BlockColors[,] matrix;
     private GameObject[,] matrixBlocks;
     private Piece currentPiece;
@@ -34,6 +29,8 @@ public class TetrisManager : MonoBehaviour
     public int pieceInitialPositionX = 2;
     public int pieceInitialPositionY = 2;
     public int minimumVerticalBlocksForRemoving = 3;
+    public int minimumHorizontalBlocksForRemoving = 3;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -64,6 +61,7 @@ public class TetrisManager : MonoBehaviour
                 cleanBoard();
             } else {
                 checkIfHorizontalLinesAreFilled();
+                checkIfHorizontalLinesAreFilledWithSameColor(minimumHorizontalBlocksForRemoving);
                 checkIfVerticalLinesAreSameColor(minimumVerticalBlocksForRemoving);
                 this.currentPiece = newPiece;
             }
@@ -285,6 +283,37 @@ public class TetrisManager : MonoBehaviour
         }
     }
 
+    void checkIfHorizontalLinesAreFilledWithSameColor(int quantity){
+        BlockColors previousColor = BlockColors.NoColor;
+
+        for (int i = 0; i < NUMBER_OF_ROWS; i++){
+            int counter = 0;
+            previousColor = BlockColors.NoColor;
+
+            for (int j = 0; j < NUMBER_OF_COLUMNS; j++){
+                if (matrix[j,i] == previousColor){
+                    if (matrix[j,i] == BlockColors.NoColor){
+                        previousColor = BlockColors.NoColor;
+                        counter = 1;
+                    } else {
+                        counter++;
+                    }
+                } else {
+                    if (counter >= quantity){
+                        removeHorizontalBlocks(j, i, counter);
+                        // check again the same line
+                        i--;
+                        previousColor = BlockColors.NoColor;
+                        break;
+                    } else {
+                        previousColor = matrix[j,i];
+                    }
+                    counter = 1;
+                }
+            }
+        }
+    }
+
     void checkIfVerticalLinesAreSameColor(int quantity){
         BlockColors previousColor = BlockColors.NoColor;
 
@@ -329,6 +358,17 @@ public class TetrisManager : MonoBehaviour
             }
         }
 
+    }
+
+    void removeHorizontalBlocks(int positionX, int positionY, int quantityOfBlocks) {
+        Debug.Log("Entro");
+        // moving down the lines above the removed lines
+        for (int i = 0; i < NUMBER_OF_ROWS - positionY - 1; i++){
+            for (int j = positionX - quantityOfBlocks; j <= positionX; j++){
+                Debug.Log(j+"" +" "+i);
+                matrix[j,positionY + i] = matrix[j,positionY + i + 1];
+            }
+        }
     }
 
     void removeVerticalLines(int quantityOfBlocks, int positionX, int positionY) {
